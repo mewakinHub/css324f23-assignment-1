@@ -1,6 +1,6 @@
 import copy
 
-
+# 1, 1 is position of blank tile(x, y)
 def initial_state():
     return ((7, 2, 4, 5, 0, 6, 8, 3, 1), 1, 1)
 
@@ -38,7 +38,7 @@ def move_blank(s, new_r, new_c):
 
 def h1(s):
     goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
-    board, _, _ = s
+    board, _, _ = s #unpacking "_" is for throw away
     res = 0
     # The for loop counts the number of elements that is different from
     # the goal configuration.
@@ -51,4 +51,15 @@ def h1(s):
 def h3(s):
     # implement this function
     board, _, _ = s
-    return 0
+    goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+    cols_misplace = 0
+    rows_misplace = 0
+
+    for i in range(9):
+        if board[i] != goal[i]:
+            board_row, board_col = i // 3, i % 3
+            goal_row, goal_col = goal.index(board[i]) // 3, goal.index(board[i]) % 3
+            cols_misplace += 1 if board_col != goal_col else 0
+            rows_misplace += 1 if board_row != goal_row else 0
+
+    return cols_misplace + rows_misplace
